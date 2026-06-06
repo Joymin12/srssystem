@@ -89,6 +89,6 @@ java -cp target/classes com.se03.Main
 
 ## 검증
 
-- `srs-server`: JUnit5 테스트 10개 통과
+- `srs-server`: JUnit5 테스트 36개 통과
 - `srs-client`: Maven 빌드 통과
 - 결과보고서 주요 API 경로 수동 검증 완료

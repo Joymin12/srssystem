@@ -8,6 +8,7 @@ import com.se03.model.LectureSchedule;
 import com.se03.model.ScheduleViewResult;
 import com.se03.model.ViewType;
 import com.se03.model.Reservation;
+import com.se03.model.ReservationStatus;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -35,7 +36,7 @@ public final class RoomStatusService {
                 .filter(s -> viewType != ViewType.DAILY || s.dayOfWeek().equals(koreanDay(baseDate)))
                 .toList();
         List<Reservation> reservations = reservationRepository.findAll().stream()
-                .filter(r -> r.buildingId().equals(buildingId) && r.roomId().equals(roomId) && r.isActive())
+                .filter(r -> r.buildingId().equals(buildingId) && r.roomId().equals(roomId) && r.status() == ReservationStatus.APPROVED)
                 .filter(r -> matchesView(r, baseDate, viewType))
                 .toList();
         return ScheduleViewResult.of(classroom, schedules, reservations, viewType);

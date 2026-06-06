@@ -37,6 +37,7 @@ public final class ReservationService {
     }
 
     public List<Classroom> findAvailableRooms(SearchCondition condition) {
+        if (condition.startPeriod() <= 0 || condition.endPeriod() < condition.startPeriod()) return List.of();
         List<Classroom> classrooms = classroomRepository.findByBuilding(condition.buildingId());
         List<LectureSchedule> schedules = lectureScheduleRepository.findAll();
         List<Reservation> reservations = reservationRepository.findAll();
