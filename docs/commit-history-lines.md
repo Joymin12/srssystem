@@ -40,3 +40,4 @@
 - feat: UC-03 AvailableRoomController 요청 처리 구현
 - feat: UC-03 SearchCondition 모델 구성
 - feat: UC-03 강의 시간표 충돌 강의실 제외
+- feat: UC-03 승인 예약 충돌 강의실 제외
