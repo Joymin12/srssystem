@@ -88,3 +88,4 @@
 - feat: UC-07 승인 시 APPROVED 상태 변경
 - feat: UC-07 거절 시 REJECTED 상태 변경
 - feat: UC-07 거절 사유 저장 처리
+- fix: UC-07 교수 예약 승인 시 학생 예약 충돌 처리 보완
