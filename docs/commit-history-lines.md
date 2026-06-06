@@ -77,3 +77,4 @@
 - feat: UC-06 예약 취소 요청 API 연동
 - feat: UC-06 취소 사유 입력 처리 추가
 - feat: UC-06 예약 상태 CANCELED 변경 처리
+- fix: UC-06 본인 예약만 취소 가능하도록 검증
