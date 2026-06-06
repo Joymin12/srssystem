@@ -38,3 +38,4 @@
 - feat: UC-03 종료 교시 입력 처리 추가
 - feat: UC-03 빈 강의실 조회 API 연동
 - feat: UC-03 AvailableRoomController 요청 처리 구현
+- feat: UC-03 SearchCondition 모델 구성
