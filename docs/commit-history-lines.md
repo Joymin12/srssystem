@@ -85,3 +85,4 @@
 - feat: UC-07 예약 거절 기능 구현
 - feat: UC-07 조교 권한 검증 추가
 - feat: UC-07 대기 예약 목록 조회 기능 추가
+- feat: UC-07 승인 시 APPROVED 상태 변경
