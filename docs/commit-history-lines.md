@@ -19,3 +19,4 @@
 - feat: UC-02 강의 시간표 테이블 출력 구현
 - feat: UC-02 예약 현황 테이블 출력 구현
 - feat: UC-02 강의 현황 조회 API 연동
+- feat: UC-02 RoomStatusController 요청 처리 구현
