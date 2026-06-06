@@ -105,3 +105,4 @@
 - feat: UC-10 백업 기능 구현
 - feat: UC-10 복구 기능 구현
 - feat: UC-10 백업 파일 생성 API 연동
+- feat: UC-10 백업 파일 기반 복구 API 연동
