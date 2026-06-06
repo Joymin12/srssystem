@@ -56,3 +56,4 @@
 - feat: UC-04 예약 요청 모델 구성
 - feat: UC-04 예약 ID 자동 생성 처리
 - feat: UC-04 예약 신청 시 PENDING 상태 저장
+- feat: UC-04 예약 목적 입력 처리 추가
