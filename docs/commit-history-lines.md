@@ -100,3 +100,4 @@
 - feat: UC-09 강의실 등록 API 구현
 - feat: UC-09 강의실 삭제 API 구현
 - feat: UC-09 강의 시간표 등록 API 구현
+- feat: UC-09 강의 시간표 삭제 API 구현
