@@ -22,3 +22,4 @@
 - feat: UC-02 RoomStatusController 요청 처리 구현
 - feat: UC-02 RoomStatusService 조회 로직 구현
 - feat: UC-02 강의실 존재 여부 검증 추가
+- feat: UC-02 건물 ID와 강의실 ID 매칭 검증 추가
