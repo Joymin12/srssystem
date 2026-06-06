@@ -41,3 +41,4 @@
 - feat: UC-03 SearchCondition 모델 구성
 - feat: UC-03 강의 시간표 충돌 강의실 제외
 - feat: UC-03 승인 예약 충돌 강의실 제외
+- fix: UC-03 날짜 기준 요일 자동 계산 기능 추가
