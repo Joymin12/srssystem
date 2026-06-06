@@ -37,13 +37,15 @@ public final class ReservationService {
     }
 
     public List<Classroom> findAvailableRooms(SearchCondition condition) {
-        if (condition.startPeriod() <= 0 || condition.endPeriod() < condition.startPeriod()) return List.of();
-        List<Classroom> classrooms = classroomRepository.findByBuilding(condition.buildingId());
+        if (condition == null) return List.of();
+        SearchCondition normalized = condition.normalized();
+        if (!normalized.isValidForSearch()) return List.of();
+        List<Classroom> classrooms = classroomRepository.findByBuilding(normalized.buildingId());
         List<LectureSchedule> schedules = lectureScheduleRepository.findAll();
         List<Reservation> reservations = reservationRepository.findAll();
         return classrooms.stream()
-                .filter(c -> !hasLectureConflict(c, condition, schedules))
-                .filter(c -> !hasApprovedReservationConflict(c, condition, reservations))
+                .filter(c -> !hasLectureConflict(c, normalized, schedules))
+                .filter(c -> !hasApprovedReservationConflict(c, normalized, reservations))
                 .toList();
     }
 
@@ -163,7 +165,8 @@ public final class ReservationService {
     }
 
     private boolean hasLectureConflict(Classroom classroom, SearchCondition condition, List<LectureSchedule> schedules) {
-        return schedules.stream().anyMatch(s -> s.roomId().equals(classroom.roomId()) && s.conflictsWith(condition.dayOfWeek(), condition.startPeriod(), condition.endPeriod()));
+        String dayOfWeek = condition.normalizedDayOfWeek();
+        return schedules.stream().anyMatch(s -> s.roomId().equals(classroom.roomId()) && s.conflictsWith(dayOfWeek, condition.startPeriod(), condition.endPeriod()));
     }
 
     private boolean hasApprovedReservationConflict(Classroom classroom, SearchCondition condition, List<Reservation> reservations) {

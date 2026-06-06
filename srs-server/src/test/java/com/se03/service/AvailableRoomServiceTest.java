@@ -67,6 +67,26 @@ class AvailableRoomServiceTest {
         assertTrue(rooms.isEmpty());
     }
 
+    @Test
+    @DisplayName("TC-UC03-05 날짜 기준 요일 자동 보정")
+    void blankDayOfWeekUsesDateValue() throws Exception {
+        ReservationService service = service();
+
+        List<Classroom> rooms = service.findAvailableRooms(condition("", 7, 8));
+
+        assertFalse(rooms.isEmpty());
+    }
+
+    @Test
+    @DisplayName("TC-UC03-06 필수 조건 누락 시 빈 결과 반환")
+    void invalidSearchConditionReturnsEmptyResult() throws Exception {
+        ReservationService service = service();
+
+        List<Classroom> rooms = service.findAvailableRooms(new SearchCondition("", "", LocalDate.now().plusDays(2), "목", 7, 8));
+
+        assertTrue(rooms.isEmpty());
+    }
+
     private ReservationService service() throws Exception {
         return fixture().service;
     }

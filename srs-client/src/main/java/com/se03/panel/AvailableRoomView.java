@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -36,16 +37,22 @@ public final class AvailableRoomView extends JPanel {
         reload.addActionListener(e -> loadBuildings());
         var button = AppTheme.button("검색");
         button.addActionListener(e -> search());
+        var syncDay = AppTheme.button("요일 계산");
+        syncDay.addActionListener(e -> fillDayFromDate());
         form.add(reload);
+        form.add(syncDay);
         form.add(button);
         add(form, BorderLayout.SOUTH);
         add(classrooms.scrollPane, BorderLayout.CENTER);
         loadBuildings();
+        fillDayFromDate();
     }
 
     private void search() {
         try {
-            String raw = roomApi.searchAvailableRooms(Map.of("buildingId", String.valueOf(building.getSelectedItem()), "date", date.getText(), "dayOfWeek", day.getText(), "startPeriod", start.getText(), "endPeriod", end.getText())).raw();
+            if (!validateSearchInput()) return;
+            fillDayFromDate();
+            String raw = roomApi.searchAvailableRooms(Map.of("buildingId", String.valueOf(building.getSelectedItem()), "date", date.getText().trim(), "dayOfWeek", day.getText().trim(), "startPeriod", start.getText().trim(), "endPeriod", end.getText().trim())).raw();
             classrooms.fill(raw, "CLASSROOM");
             if (!raw.contains("CLASSROOM\t")) {
                 javax.swing.JOptionPane.showMessageDialog(this, "예약 가능한 강의실이 없습니다.");
@@ -53,6 +60,55 @@ public final class AvailableRoomView extends JPanel {
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
         }
+    }
+
+    private boolean validateSearchInput() {
+        if (building.getSelectedItem() == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "건물을 선택하세요.");
+            return false;
+        }
+        LocalDate parsedDate;
+        try {
+            parsedDate = LocalDate.parse(date.getText().trim());
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "날짜는 yyyy-MM-dd 형식으로 입력하세요.");
+            return false;
+        }
+        int startPeriod;
+        int endPeriod;
+        try {
+            startPeriod = Integer.parseInt(start.getText().trim());
+            endPeriod = Integer.parseInt(end.getText().trim());
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "교시는 숫자로 입력하세요.");
+            return false;
+        }
+        if (startPeriod <= 0 || endPeriod < startPeriod) {
+            javax.swing.JOptionPane.showMessageDialog(this, "교시 범위를 확인하세요.");
+            return false;
+        }
+        day.setText(koreanDay(parsedDate.getDayOfWeek()));
+        return true;
+    }
+
+    private void fillDayFromDate() {
+        try {
+            day.setText(koreanDay(LocalDate.parse(date.getText().trim()).getDayOfWeek()));
+        } catch (Exception ignored) {
+            // 날짜 입력 중에는 검색 시점의 검증 메시지로 안내한다.
+        }
+    }
+
+    private String koreanDay(DayOfWeek dayOfWeek) {
+        return switch (dayOfWeek) {
+            case MONDAY -> "월";
+            case TUESDAY -> "화";
+            case WEDNESDAY -> "수";
+            case THURSDAY -> "목";
+            case FRIDAY -> "금";
+            case SATURDAY -> "토";
+            case SUNDAY -> "일";
+        };
     }
 
     private void loadBuildings() {
